@@ -8,7 +8,7 @@ type ModalProps = {
 }
 
 export const Modal = ({open, calculateResult, handleReset}: ModalProps) => {
-    console.log('here', open, calculateResult)
+
     React.useEffect(() => {
         if(open) document.body.style.overflow = 'hidden'
     }, [open])

@@ -1,6 +1,5 @@
 import React from 'react';
-import {BookButton, Input} from "../components";
-import {Modal} from "../components/Modal";
+import {BookButton, Input, Modal} from "../components";
 import {calculate, CalculateResultType} from "../utils/calculate";
 
 const Home = () => {
@@ -8,21 +7,27 @@ const Home = () => {
     const [premiumRoom, setPremiumRoom] = React.useState('')
     const [openModal, setOpenModal] = React.useState(false)
     const [calculateResult, setCalculateResult] = React.useState<CalculateResultType | null>(null)
+    const [trigger, setTrigger] = React.useState(false)
 
     const setEconomy = (value: string) => setEconomyRoom(value)
     const setPremium = (value: string) => setPremiumRoom(value)
 
     const handleCalculate = () => {
-        console.log('here')
+        if(!economyRoom || !premiumRoom) {
+            setTrigger(true)
+            return
+        }
         setCalculateResult(calculate([23, 45, 155, 374, 22, 99, 100, 101, 115, 209], Number(economyRoom), Number(premiumRoom)))
         setOpenModal(true)
     }
 
     const handleReset = () => {
+        document.body.style.overflow = 'revert'
         setOpenModal(false)
         setCalculateResult(null)
         setEconomyRoom('')
         setPremiumRoom('')
+        setTrigger(false)
     }
 
     return (
@@ -37,11 +42,11 @@ const Home = () => {
                     <span className='underline'>stay</span>
                 </h1>
 
-                <Input value={premiumRoom} type='Premium' setValue={setPremium}/>
+                <Input error={!premiumRoom && trigger} value={premiumRoom} type='Premium' setValue={setPremium}/>
 
-                <Input value={economyRoom} type='Economy' setValue={setEconomy}/>
+                <Input error={!economyRoom && trigger} value={economyRoom} type='Economy' setValue={setEconomy}/>
 
-                <BookButton onClick={handleCalculate} disabled={!premiumRoom || !economyRoom}/>
+                <BookButton onClick={handleCalculate} disabled={false}/>
 
             </div>
 

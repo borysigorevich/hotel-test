@@ -42,8 +42,8 @@ export const calculate = (arr: number[], economyRoom: number, premiumRoom: numbe
     return {
         usagePremium: premium.length,
         usageEconomy: economy.length,
-        premiumCost: premium.reduce((acc, next) => acc + next),
-        economyCost: economy.reduce((acc, next) => acc + next),
+        premiumCost: premium.reduce((acc, next) => acc + next, 0),
+        economyCost: economy.reduce((acc, next) => acc + next, 0),
     }
 
 }
